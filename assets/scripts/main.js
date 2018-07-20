@@ -119,6 +119,7 @@ function renderMovieList() {
         var releaseDate = movieList[i].release_date;
         var imgPath = movieList[i].poster_path;
         var vote = movieList[i].vote_average;
+        var voteCount = movieList[i].vote_count;
 
         //create HTML elements
         var movieRow = $("<div>").addClass("movie-row").attr("id", "row-" + i).attr("data-movie-id", movieID);
@@ -126,9 +127,10 @@ function renderMovieList() {
         var movieInfo = $("<div>").addClass("movie-info");
         var movieTitle = $("<div>").addClass("movie-title").html(title);
         var movieDate = $("<div>").addClass("release-date").html(releaseDate);
-        var movieVote = $("<div>").addClass("avg-vote").html(vote);
+        var movieVote = $("<div>").addClass("avg-vote").html(vote * 10 + "%  ");
         var dateLabel = $("<span>").addClass("label").html("Release Date: ");
-        var voteLabel = $("<span>").addClass("label").html("Average Vote: ");
+        var voteLabel = $("<span>").addClass("label").html("Avg Vote: ");
+        var countLabel = $("<span>").addClass("label").html("Vote Count: ");
 
         //add elements to page
         movieRow.append(movieImg);
@@ -138,6 +140,8 @@ function renderMovieList() {
         movieInfo.append(movieVote);
         movieDate.prepend(dateLabel);
         movieVote.prepend(voteLabel);
+        movieVote.append(countLabel);
+        movieVote.append(voteCount.toLocaleString());
         movieRow.css("opacity", 0);
         $("#summary-section").append(movieRow);
     }
