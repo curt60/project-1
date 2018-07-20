@@ -149,8 +149,9 @@ function renderMovieList() {
     anime({
         targets: ".movie-row",
         opacity: 1,
+        //easing: "linear",
         delay: function(el, i, l) {
-            return i * 200;
+            return i * 150;
         }
     });
 }
