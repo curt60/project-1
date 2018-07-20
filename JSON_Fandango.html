@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Favorite Movies</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>Movie Search</h1>
+
+    <!-- We'll be dumping our JSON contents in here -->
+    <div id="movie-view"></div>
+
+    <!-- This form will be where users input data about the movies -->
+    <form id="movie-form">
+      <label for="movie-input">Search for a movie</label>
+      <input type="text" id="movie-input"><br>
+
+      <!-- This button will trigger our AJAX call -->
+      <input id="find-movie" type="submit" value="Movie Search">
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      // This .on("click") function will trigger the AJAX Call
+      $("#find-movie").on("click", function(event) {
+
+        // Preventing the submit button from trying to submit the form
+        // We're optionally using a form so the user may hit Enter to search instead of clicking the button
+        event.preventDefault();
+
+        // Here we grab the text from the input text box:  title-input
+        //var movie = $("#movie-input").val();
+        var movie = $("#movie-input").val();
+        //var movie = $("#title-input").val().trim();
+
+        console.log(movie);
+
+        // Here we construct our URL
+        //var queryURL = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=vmzd8hgpa6mg2yykwdmef3vu&q=" + movie + "&page_limit=5";
+        var queryURL = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=vmzd8hgpa6mg2yykwdmef3vu&q=" + movie + "&page_limit=5";
+        //var queryURL = "http://api.fandango.com/v1?op=<operation>&<parameter list>&apikey=<apikey>&sig=<sig>"
+        //var queryURL = "https://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=f0032c14";
+        
+        //BELOW IS THE API CALL URL:
+        //http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=vmzd8hgpa6mg2yykwdmef3vu
+        
+        //Example of API call for Jack Reacher, Never Go Back.
+        //http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=[your_api_key]&q=Jack&page_limit=1
+
+        //BELOW IS THE API Documentation
+        //https://developer.fandango.com/docs/read/rotten_tomatoes/json/v10/Movies_Search
+        
+        // Write code between the dashes below to hit the queryURL with $ajax, then take the response data
+        // and display it in the div with an id of movie-view
+
+        $.ajax({
+        url: queryURL, 
+        method: "GET"
+        }).then(function(response) {
+        console.log(response);
+        $("#movie-view").html(JSON.stringify(response));
+        //$("#movie-view").append("Here is the object:  " + response);
+        });
+
+      });
+    </script>
+  </div>
+</body>
+
+</html>
