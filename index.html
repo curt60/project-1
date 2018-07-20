@@ -16,9 +16,9 @@
 
 <body>
     <div class="container">
-        <div class="jumbotron bg-secondary text-white text-center mt-3 p-3">
+        <div class="jumbotron bg-dark text-white text-center mt-3 p-3">
             <h1>Movie Aggregator</h1>
-            <h4>The Latest Movies at a Glance</h4>
+            <h4>Movie info at a Glance</h4>
         </div>
         <div class="row search-inputs">
             <div class="col-md-8">
@@ -29,75 +29,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Zip Code" id="zip-input">
-                    <div class="input-group-append">
-                        <button class="btn btn-secondary" type="button" id="zip-search-btn">Search</button>
-                    </div>
-                </div>
-            </div>
+            <div class="col-md-4 text-center" id="result-count"></div>
         </div>
         <div class="row output">
             <div class="col-sm-8" id="summary-section">
                 <div class="row mb-3 movie-row">
-                    <div class="col-md-3 movie-pic">
-                        <img src="https://picsum.photos/100?image=1081" alt="Movie Thumbnail">
-                    </div>
-                    <div class="col-md-9 movie-info">
-                        <div class="movie-title">Something or Other</div>
-                        <div class="row movie-ratings">
-                            <div class="col-md">Rating
-                                <p class="score">PG</p>
-                            </div>
-                            <div class="col-md">Metacrtic
-                                <p class="score">95</p>
-                            </div>
-                            <div class="col-md">Rotten Tomato
-                                <p class="score">87</p>
-                            </div>
-                        </div>
-                        <div class="movie-cast">Joe Smith, Jane Doe, Peter Ericson</div>
-                    </div>
-                </div>
-                <div class="row mb-3 movie-row">
-                    <div class="col-md-3 movie-pic">
-                        <img src="https://picsum.photos/100?image=1082" alt="Movie Thumbnail">
-                    </div>
-                    <div class="col-md-9 movie-info">
-                        <div class="movie-title">Something or Other</div>
-                        <div class="row movie-ratings">
-                            <div class="col-md">Rating
-                                <p class="score">PG</p>
-                            </div>
-                            <div class="col-md">Metacrtic
-                                <p class="score">95</p>
-                            </div>
-                            <div class="col-md">Rotten Tomato
-                                <p class="score">87</p>
-                            </div>
-                        </div>
-                        <div class="movie-cast">Joe Smith, Jane Doe, Peter Ericson</div>
-                    </div>
-                </div>
-                <div class="row mb-3 movie-row">
-                    <div class="col-md-3 movie-pic">
-                        <img src="https://picsum.photos/100?image=1083" alt="Movie Thumbnail">
-                    </div>
-                    <div class="col-md-9 movie-info">
-                        <div class="movie-title">Something or Other</div>
-                        <div class="row movie-ratings">
-                            <div class="col-md">Rating
-                                <p class="score">PG</p>
-                            </div>
-                            <div class="col-md">Metacrtic
-                                <p class="score">95</p>
-                            </div>
-                            <div class="col-md">Rotten Tomato
-                                <p class="score">87</p>
-                            </div>
-                        </div>
-                        <div class="movie-cast">Joe Smith, Jane Doe, Peter Ericson</div>
+                    <img src="https://image.tmdb.org/t/p/w200/IfB9hy4JH1eH6HEfIgIGORXi5h.jpg" alt="Movie Thumbnail">
+                    <div class="movie-info">
+                        <div class="movie-title">Ant-Man: Let's Go to the Macroverse</div>
+                        <div class="release-date">
+                            <span class="label">Release Date: </span>2009</div>
+                        <div class="avg-vote">
+                            <span class="label">Average Vote: </span>6.5</div>
                     </div>
                 </div>
             </div>
@@ -108,6 +51,7 @@
 
     <!-- JavaScript Files-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="./assets/scripts/anime.min.js"></script>
     <script src="./assets/scripts/main.js"></script>
 
 </body>
