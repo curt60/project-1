@@ -11,10 +11,15 @@ anime({
     duration: "2000"
 })
 
+//Reference the rating.js file
+//<script src="rating.js"></script>
+
 //TMDb API config
 var searchURL = "https://api.themoviedb.org/3/search/movie"
 var movieURL = "https://api.themoviedb.org/3/movie/"
 var apiKey = "e48a4ae3c093a2322becafcc6dc5c8a0";
+var searchURLOMDB = "http://www.omdbapi.com/?i=tt3896198&apikey=";
+var apiKeyOMDB = "f0032c14";
 
 //define global variables
 var numOfResults = 0;
