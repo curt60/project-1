@@ -37,7 +37,7 @@ $(document).on("click", ".movie-row", function () {
             targets: "#review-section",
             translateX: ["0px", "200px"],
             opacity: 0,
-            complete: function(){
+            complete: function () {
                 $("#review-section").empty();
             }
         });
@@ -96,7 +96,7 @@ function searchTitle() {
 //get movie details
 function getDetails(movieID) {
     //configure API URL
-    var queryURL = movieURL + movieID + "?api_key=" + apiKey
+    var queryURL = movieURL + movieID + "?api_key=" + apiKey + "&append_to_response=reviews,external_ids";
 
     //generate AJAX request
     $.ajax({
@@ -104,10 +104,12 @@ function getDetails(movieID) {
         method: "GET"
     }).then(function (response) {
         movieDetails = response;
+        console.log(movieDetails);
         //display details
         renderDetails();
     });
 }
+
 
 //render movie list
 function renderMovieList() {
@@ -150,7 +152,7 @@ function renderMovieList() {
         targets: ".movie-row",
         opacity: 1,
         //easing: "linear",
-        delay: function(el, i, l) {
+        delay: function (el, i, l) {
             return i * 150;
         }
     });
@@ -169,11 +171,15 @@ function renderDetails() {
             //once exist animation is complete perform the following actions
             complete: function (anim) {
                 //clear prior details
+
                 reviewSection.empty();
                 //create and display HTML elements
                 var tagline = $("<div>").addClass("tagline").html(movieDetails.tagline);
                 var summary = $("<div>").addClass("summary").html(movieDetails.overview);
                 reviewSection.append(tagline).append(summary);
+                getReview();
+
+            
                 //animate new info entrance
                 anime({
                     targets: "#review-section",
@@ -183,11 +189,28 @@ function renderDetails() {
             }
         });
     }
+    
     else {
         //create and display HTML elements
         var tagline = $("<div>").addClass("tagline").html(movieDetails.tagline);
         var summary = $("<div>").addClass("summary").html(movieDetails.overview);
         reviewSection.append(tagline).append(summary);
+
+        getReview();
+        }
+       
+       
+        function getReview(){
+            
+        if (movieDetails.reviews.results.length != 0) {
+            var reviewTitle = $("<h3>").addClass("review-title").html("Reviews");
+            reviewSection.append(reviewTitle);
+            for (var i = 0; i < movieDetails.reviews.results.length && i < 3; i++) {
+                var movieReview = movieDetails.reviews.results[i].content;
+                var reviews = $("<div>").addClass("review").html(movieReview);
+                reviewSection.append(reviews);
+            }
+        }
         //animate detail info entrance
         anime({
             targets: "#review-section",
