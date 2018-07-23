@@ -150,3 +150,22 @@ body {
     color: #333;
     vertical-align: middle;
 }
+
+.vid-modal {
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    z-index: 3;
+    opacity: 0;
+}
+
+iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -180px 0 0 -320px;
+}

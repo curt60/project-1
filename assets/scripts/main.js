@@ -25,6 +25,7 @@ var numOfResults = 0;
 var movieList = [];
 var movieDetails = {};
 var movieRatings = [];
+var videoSrc = "";
 
 //execute search when search button is clicked (functions defined below)
 $("#title-search-btn").on("click", searchTitle);
@@ -71,6 +72,26 @@ $(document).on("click", ".movie-row", function () {
     }
 
 })
+
+//display video when any movie details are clicked
+$("#review-section").on("click", function () {
+    console.log(videoSrc);
+    displayVideo();
+});
+
+//close modal when clicked anywhere outside of video
+$(".vid-modal").on("click", function() {
+    anime({
+        targets: ".vid-modal",
+        opacity: "0",
+        duration: "500",
+        easing: "linear",
+        complete: function() {
+            $(".vid-modal").css("visibility", "hidden");
+            $("iframe").removeAttr("src");
+        }
+    });
+});
 
 //search for movies by title
 function searchTitle() {
@@ -121,6 +142,12 @@ function getDetails(movieID) {
         //display background image
         var imgURL = "https://image.tmdb.org/t/p/w1280" + movieDetails.backdrop_path;
         $(".background").css("background-image", "url('" + imgURL + "')");
+
+        //define video URL if exists
+        if (movieDetails.videos.results[0]) {
+            videoSrc = "https://www.youtube.com/embed/" + movieDetails.videos.results[0].key + "?autoplay=1";
+        }
+
     });
 }
 
@@ -137,9 +164,14 @@ function renderMovieList() {
         var vote = movieList[i].vote_average;
         var voteCount = movieList[i].vote_count;
 
+        //define image URL if available otherwise load default image
+        var imgURL = "";
+        if (imgPath) { imgURL = imgBaseURL + imgPath; }
+        else { imgURL = "./assets/images/poster.jpg"; }
+
         //create HTML elements
         var movieRow = $("<div>").addClass("movie-row").attr("id", "row-" + i).attr("data-movie-id", movieID);
-        var movieImg = $("<img>").attr("src", imgBaseURL + imgPath);
+        var movieImg = $("<img>").attr("src", imgURL);
         var movieInfo = $("<div>").addClass("movie-info");
         var movieTitle = $("<div>").addClass("movie-title").html(title);
         var movieDate = $("<div>").addClass("release-date").html(releaseDate);
@@ -269,5 +301,21 @@ function displayRatings() {
         rating.append($("<span>").addClass("rating-value").html(movieRatings[i].Value));
         //adding rating div to detail section
         reviewSection.prepend(rating);
+    }
+}
+
+//display video
+function displayVideo() {
+    if (videoSrc) {
+        //set video source
+        $("iframe").attr("src", videoSrc);
+        //make modal visible
+        $(".vid-modal").css("visibility", "visible");
+        anime({
+            targets: ".vid-modal",
+            opacity: "1",
+            duration: "1000",
+            easing: "linear",
+        });
     }
 }
