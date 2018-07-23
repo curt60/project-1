@@ -1,6 +1,33 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+.background {
+    margin:0;
+    padding: 0;
+    border: none;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    opacity: .5;
+    background-image: url("../images/white.jpg");
+    background-color: white;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition-property: background-image;
+    transition-duration: 1s;
+}
+
 .container {
     padding: 0;
-    max-width: 850px;
+    max-width: 60rem;
     background-color: white;
 }
 
@@ -9,7 +36,7 @@
 }
 
 #result-count {
-    font-size: 22px;
+    font-size: 1.5rem;
     font-weight: bold;
     color: #666;
 }
@@ -25,14 +52,14 @@
     transition-duration: .4s;
     background-color: #eee;
     left: 0;
-    margin-bottom: 5px;
-    width: 400px;
+    margin-bottom: .3rem;
+    width: 28rem;
 }
 
 .movie-row:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: #dfdfdf;
-    left: 5px;
+    left: .3rem;
 }
 
 .movie-row:active {
@@ -47,13 +74,13 @@
 }
 
 .movie-row > img {
-    height: 150px;
+    height: 8rem;
 }
 
 .movie-title {
-    font-size: 22px;
+    font-size: 1.2rem;
     font-weight: bold;
-    padding: 10px;
+    padding: .5rem;
 }
 
 .movie-info {
@@ -61,13 +88,13 @@
 }
 
 .label {
-    font-size: 14px;
+    font-size: .9rem;
     font-weight: normal;
     color: #666;
 }
 
 .release-date, .avg-vote {
-    font-size: 22p;
+    font-size: 1rem;
     font-weight: bold;
 }
 
@@ -75,19 +102,49 @@
     opacity: 0;
     position:sticky;
     top: 0;
-    padding: 20px;
-}
-
-.tagline, .summary {
-    text-align: justify
-}
-
-.tagline {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 15px;
+    padding: 1rem;
 }
 
 .summary {
-    font-size: 14px;
+    text-align: justify;
+}
+
+.tagline {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.summary {
+    font-size: .9rem;
+    margin-bottom: 1rem;
+}
+
+.review-title {
+    text-align: center;
+    color: #666;
+    font-size: 1.5rem;
+}
+
+.review {
+    font-size: .8rem;
+    text-align: justify;
+}
+
+.rating {
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+}
+
+.icon {
+    height: 3rem;
+    width: 3rem;
+    margin-right: 1rem;
+}
+
+.rating-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
 }

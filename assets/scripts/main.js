@@ -47,6 +47,9 @@ $(document).on("click", ".movie-row", function () {
             }
         });
 
+        //remove background image
+        $(".background").css("background-image", "url('./assets/images/white.jpg')");
+
         //remove 'selected' class from row
         $(".movie-row").removeClass("selected");
     }
@@ -73,6 +76,8 @@ function searchTitle() {
     $("#summary-section").empty();
     $("#result-count").empty();
     $("#review-section").empty();
+    //remove background image
+    $(".background").css("background-image", "url('./assets/images/white.jpg')");
 
     //configure search URL
     var searchTerm = $("#title-input").val().trim().replace(/ /g, "+");
@@ -110,6 +115,10 @@ function getDetails(movieID) {
         movieDetails = response;
         //display details
         renderDetails();
+
+        //display background image
+        var imgURL = "https://image.tmdb.org/t/p/w1280" + movieDetails.backdrop_path;
+        $(".background").css("background-image", "url('" + imgURL + "')");
     });
 }
 
@@ -242,7 +251,7 @@ function displayRatings() {
         //create rating div
         var rating = $("<div>").addClass("rating");
         //add appropriate icon
-        switch(movieRatings[i].Source) {
+        switch (movieRatings[i].Source) {
             case "Internet Movie Database":
                 rating.append(imdbIcon);
                 break
