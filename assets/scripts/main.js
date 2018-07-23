@@ -40,8 +40,10 @@ $(document).on("click", ".movie-row", function () {
         //animiate movie detail exit
         anime({
             targets: "#review-section",
-            translateX: ["0px", "200px"],
+            //translateX: ["0px", "200px"],
             opacity: 0,
+            duration: 500,
+            easing: "linear",
             complete: function () {
                 $("#review-section").empty();
             }
@@ -105,7 +107,7 @@ function searchTitle() {
 //get movie details
 function getDetails(movieID) {
     //configure API URL
-    var queryURL = movieURL + movieID + "?api_key=" + apiKeyTMDb + "&append_to_response=reviews,external_ids";
+    var queryURL = movieURL + movieID + "?api_key=" + apiKeyTMDb + "&append_to_response=reviews,external_ids,videos";
 
     //generate AJAX request
     $.ajax({
@@ -221,6 +223,7 @@ function addDetailContent(div) {
     anime({
         targets: "#review-section",
         translateY: ["100px", "0px"],
+        duration: 1000,
         opacity: 1
     });
 }
