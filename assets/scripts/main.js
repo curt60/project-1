@@ -11,27 +11,27 @@ anime({
     duration: "2000"
 })
 
-//Reference the rating.js file
-//<script src="rating.js"></script>
-
 //TMDb API config
 var searchURL = "https://api.themoviedb.org/3/search/movie"
 var movieURL = "https://api.themoviedb.org/3/movie/"
-var apiKey = "e48a4ae3c093a2322becafcc6dc5c8a0";
-var searchURLOMDB = "http://www.omdbapi.com/?i=tt3896198&apikey=";
-var apiKeyOMDB = "f0032c14";
+var apiKeyTMDb = "e48a4ae3c093a2322becafcc6dc5c8a0";
+
+//OMDB API config
+var ratingURL = "https://www.omdbapi.com/?i=";
+var apiKeyOMDB = "7a2bf295";
 
 //define global variables
 var numOfResults = 0;
 var movieList = [];
 var movieDetails = {};
+var movieRatings = [];
 
 //execute search when search button is clicked (functions defined below)
 $("#title-search-btn").on("click", searchTitle);
 
 //when movie row is clicked update css and display (or clear) movie details
 $(document).on("click", ".movie-row", function () {
-    //if currently selected then unselect
+    //if clicked row already selected then unselect
     if ($(this).hasClass("selected")) {
         //reset css for all rows
         $(".movie-row").css("opacity", "1");
@@ -50,7 +50,7 @@ $(document).on("click", ".movie-row", function () {
         //remove 'selected' class from row
         $(".movie-row").removeClass("selected");
     }
-    //if not current selected then select now
+    //if clicked row is not currently selected then select now
     else {
         //fade non-selected rows
         $(".movie-row").css("opacity", "0.5");
@@ -76,7 +76,7 @@ function searchTitle() {
 
     //configure search URL
     var searchTerm = $("#title-input").val().trim().replace(/ /g, "+");
-    var queryURL = searchURL + "?api_key=" + apiKey + "&query=" + searchTerm + "&include_adult=false";
+    var queryURL = searchURL + "?api_key=" + apiKeyTMDb + "&query=" + searchTerm + "&include_adult=false";
 
     //generate API call and retrieve movie list
     $.ajax({
@@ -85,7 +85,6 @@ function searchTitle() {
     }).then(function (response) {
         numOfResults = response.total_results;
         movieList = response.results;
-        console.log(movieList);
 
         //display number of results
         var resultCount = $("#result-count");
@@ -101,7 +100,7 @@ function searchTitle() {
 //get movie details
 function getDetails(movieID) {
     //configure API URL
-    var queryURL = movieURL + movieID + "?api_key=" + apiKey + "&append_to_response=reviews,external_ids";
+    var queryURL = movieURL + movieID + "?api_key=" + apiKeyTMDb + "&append_to_response=reviews,external_ids";
 
     //generate AJAX request
     $.ajax({
@@ -109,7 +108,6 @@ function getDetails(movieID) {
         method: "GET"
     }).then(function (response) {
         movieDetails = response;
-        console.log(movieDetails);
         //display details
         renderDetails();
     });
@@ -171,61 +169,93 @@ function renderDetails() {
         //animate old review exit
         anime({
             targets: "#review-section",
-            translateX: ["0px", "200px"],
+            translateX: ["0px", "100px"],
             opacity: 0,
             //once exist animation is complete perform the following actions
             complete: function (anim) {
                 //clear prior details
-
                 reviewSection.empty();
-                //create and display HTML elements
-                var tagline = $("<div>").addClass("tagline").html(movieDetails.tagline);
-                var summary = $("<div>").addClass("summary").html(movieDetails.overview);
-                reviewSection.append(tagline).append(summary);
-                getReview();
-
-            
-                //animate new info entrance
-                anime({
-                    targets: "#review-section",
-                    translateY: ["100px", "0px"],
-                    opacity: 1
-                });
+                //add detail content after exit animation complete
+                addDetailContent(reviewSection);
+                //get ratings
+                getRatings(movieDetails.external_ids.imdb_id);
             }
         });
     }
-    
+    //if no details currently displayed
     else {
-        //create and display HTML elements
-        var tagline = $("<div>").addClass("tagline").html(movieDetails.tagline);
-        var summary = $("<div>").addClass("summary").html(movieDetails.overview);
-        reviewSection.append(tagline).append(summary);
-
-        getReview();
-        }
-       
-       
-        function getReview(){
-            
-        if (movieDetails.reviews.results.length != 0) {
-            var reviewTitle = $("<h3>").addClass("review-title").html("Reviews");
-            reviewSection.append(reviewTitle);
-            for (var i = 0; i < movieDetails.reviews.results.length && i < 3; i++) {
-                var movieReview = movieDetails.reviews.results[i].content;
-                var reviews = $("<div>").addClass("review").html(movieReview);
-                reviewSection.append(reviews);
-            }
-        }
-        //animate detail info entrance
-        anime({
-            targets: "#review-section",
-            translateY: ["100px", "0px"],
-            opacity: 1
-        });
+        //add detail content after exit animation complete
+        addDetailContent(reviewSection);
+        //get ratings
+        getRatings(movieDetails.external_ids.imdb_id);
     }
 }
 
+function addDetailContent(div) {
+    //Add tagline and oveview
+    var tagline = $("<div>").addClass("tagline").html(movieDetails.tagline);
+    var summary = $("<div>").addClass("summary").html(movieDetails.overview);
+    div.append(tagline).append(summary);
 
+    //Add movie reviews
+    if (movieDetails.reviews.results.length !== 0) {
+        var reviewTitle = $("<h3>").addClass("review-title").html("Reviews");
+        div.append(reviewTitle);
+        for (let i = 0; i < movieDetails.reviews.results.length && i < 3; i++) {
+            var movieReview = movieDetails.reviews.results[i].content;
+            var reviews = $("<div>").addClass("review").html(movieReview);
+            div.append(reviews);
+        }
+    }
 
+    //animate detail info entrance
+    anime({
+        targets: "#review-section",
+        translateY: ["100px", "0px"],
+        opacity: 1
+    });
+}
 
+//get movie ratings
+function getRatings(imdbID) {
+    //configure API URL
+    var queryURL = ratingURL + imdbID + "&apikey=" + apiKeyOMDB;
+    //generate AJAX request
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        movieRatings = response.Ratings;
+        displayRatings();
+    });
+}
 
+function displayRatings() {
+    //map review section element to js variable
+    var reviewSection = $("#review-section");
+    //crate icon image elelments
+    var imdbIcon = $("<img>").addClass("icon").attr("src", "./assets/images/imdb_icon2.jpg");
+    var metaIcon = $("<img>").addClass("icon").attr("src", "./assets/images/meta_icon.jpg");
+    var rottenIcon = $("<img>").addClass("icon").attr("src", "./assets/images/rotten_icon.png");
+    //populate available ratings and icons
+    for (let i = 0; i < movieRatings.length; i++) {
+        //create rating div
+        var rating = $("<div>").addClass("rating");
+        //add appropriate icon
+        switch(movieRatings[i].Source) {
+            case "Internet Movie Database":
+                rating.append(imdbIcon);
+                break
+            case "Rotten Tomatoes":
+                rating.append(rottenIcon);
+                break
+            case "Metacritic":
+                rating.append(metaIcon);
+                break
+        }
+        //add span element that contains rating
+        rating.append($("<span>").addClass("rating-value").html(movieRatings[i].Value));
+        //adding rating div to detail section
+        reviewSection.prepend(rating);
+    }
+}
