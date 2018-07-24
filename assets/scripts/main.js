@@ -55,6 +55,9 @@ $(document).on("click", ".movie-row", function () {
 
         //remove 'selected' class from row
         $(".movie-row").removeClass("selected");
+
+        //reset video source
+        videoSrc = "";
     }
     //if clicked row is not currently selected then select now
     else {
@@ -67,6 +70,8 @@ $(document).on("click", ".movie-row", function () {
         //assign 'selected' class to row
         $(".movie-row").removeClass("selected");
         $(this).addClass("selected");
+        //reset video source
+        videoSrc = "";        
         //get movie details
         getDetails($(this).attr("data-movie-id"));
     }
@@ -74,7 +79,7 @@ $(document).on("click", ".movie-row", function () {
 })
 
 //display video when any movie details are clicked
-$("#review-section").on("click", function () {
+$(document).on("click", "#vid-btn", function () {
     console.log(videoSrc);
     displayVideo();
 });
@@ -101,7 +106,8 @@ function searchTitle() {
     $("#review-section").empty();
     //remove background image
     $(".background").css("background-image", "url('./assets/images/white.jpg')");
-
+    //reset video source
+    videoSrc = "";
     //configure search URL
     var searchTerm = $("#title-input").val().trim().replace(/ /g, "+");
     var queryURL = searchURL + "?api_key=" + apiKeyTMDb + "&query=" + searchTerm + "&include_adult=false";
@@ -136,8 +142,6 @@ function getDetails(movieID) {
         method: "GET"
     }).then(function (response) {
         movieDetails = response;
-        //display details
-        renderDetails();
 
         //display background image if it exists
         if (movieDetails.backdrop_path) {
@@ -152,7 +156,9 @@ function getDetails(movieID) {
         if (movieDetails.videos.results[0]) {
             videoSrc = "https://www.youtube.com/embed/" + movieDetails.videos.results[0].key + "?autoplay=1";
         }
-
+        
+        //display details
+        renderDetails();
     });
 }
 
@@ -241,8 +247,16 @@ function renderDetails() {
 
 function addDetailContent(div) {
     //Add tagline and oveview
+    var vidBtn = $("<button>").addClass("btn btn-secondary mx-auto mb-2").attr("id", "vid-btn").html("Play Trailer");
     var tagline = $("<div>").addClass("tagline").html(movieDetails.tagline);
     var summary = $("<div>").addClass("summary").html(movieDetails.overview);
+
+    //if video available display play button
+    if (videoSrc) {
+        console.log(videoSrc);
+        div.append(vidBtn);
+    }
+    //displaly tagline and summary
     div.append(tagline).append(summary);
 
     //Add movie reviews
@@ -283,7 +297,7 @@ function displayRatings() {
     //exit function if no movie ratings exist
     if (!movieRatings) return;
     //map review section element to js variable
-    var reviewSection = $("#review-section");
+    var ratingSection = $("<div>").attr("id", "rating-section");
     //crate icon image elelments
     var imdbIcon = $("<img>").addClass("icon").attr("src", "./assets/images/imdb_icon2.jpg");
     var metaIcon = $("<img>").addClass("icon").attr("src", "./assets/images/meta_icon.jpg");
@@ -307,8 +321,9 @@ function displayRatings() {
         //add span element that contains rating
         rating.append($("<span>").addClass("rating-value").html(movieRatings[i].Value));
         //adding rating div to detail section
-        reviewSection.prepend(rating);
+        ratingSection.append(rating);
     }
+    $("#review-section").prepend(ratingSection);
 }
 
 //display video
