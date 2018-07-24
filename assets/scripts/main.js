@@ -80,13 +80,13 @@ $("#review-section").on("click", function () {
 });
 
 //close modal when clicked anywhere outside of video
-$(".vid-modal").on("click", function() {
+$(".vid-modal").on("click", function () {
     anime({
         targets: ".vid-modal",
         opacity: "0",
         duration: "500",
         easing: "linear",
-        complete: function() {
+        complete: function () {
             $(".vid-modal").css("visibility", "hidden");
             $("iframe").removeAttr("src");
         }
@@ -139,10 +139,15 @@ function getDetails(movieID) {
         //display details
         renderDetails();
 
-        //display background image
-        var imgURL = "https://image.tmdb.org/t/p/w1280" + movieDetails.backdrop_path;
-        $(".background").css("background-image", "url('" + imgURL + "')");
-
+        //display background image if it exists
+        if (movieDetails.backdrop_path) {
+            var imgURL = "https://image.tmdb.org/t/p/w1280" + movieDetails.backdrop_path;
+            $(".background").css("background-image", "url('" + imgURL + "')");
+        }
+        //otherwise background to white
+        else {
+            $(".background").css("background-image", "url('./assets/images/white.jpg')");
+        }
         //define video URL if exists
         if (movieDetails.videos.results[0]) {
             videoSrc = "https://www.youtube.com/embed/" + movieDetails.videos.results[0].key + "?autoplay=1";
@@ -275,6 +280,8 @@ function getRatings(imdbID) {
 }
 
 function displayRatings() {
+    //exit function if no movie ratings exist
+    if (!movieRatings) return;
     //map review section element to js variable
     var reviewSection = $("#review-section");
     //crate icon image elelments
