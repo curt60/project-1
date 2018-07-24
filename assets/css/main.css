@@ -31,6 +31,22 @@ body {
     background-color: white;
 }
 
+.title {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.main-title {
+    letter-spacing: .4rem;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.logo {
+    height: 7rem;
+    margin: 0 1rem;
+}
+
 .output {
     display: flex;
 }

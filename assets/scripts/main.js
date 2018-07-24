@@ -178,7 +178,7 @@ function renderMovieList() {
         //define image URL if available otherwise load default image
         var imgURL = "";
         if (imgPath) { imgURL = imgBaseURL + imgPath; }
-        else { imgURL = "./assets/images/poster.jpg"; }
+        else { imgURL = "./assets/images/clapperboard_poster.png"; }
 
         //create HTML elements
         var movieRow = $("<div>").addClass("movie-row").attr("id", "row-" + i).attr("data-movie-id", movieID);
