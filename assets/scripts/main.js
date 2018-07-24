@@ -299,7 +299,7 @@ function displayRatings() {
     //map review section element to js variable
     var ratingSection = $("<div>").attr("id", "rating-section");
     //crate icon image elelments
-    var imdbIcon = $("<img>").addClass("icon").attr("src", "./assets/images/imdb_icon2.jpg");
+    var imdbIcon = $("<img>").addClass("icon").attr("src", "./assets/images/imdb_icon.jpg");
     var metaIcon = $("<img>").addClass("icon").attr("src", "./assets/images/meta_icon.jpg");
     var rottenIcon = $("<img>").addClass("icon").attr("src", "./assets/images/rotten_icon.png");
     //populate available ratings and icons
