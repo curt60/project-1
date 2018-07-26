@@ -18,7 +18,7 @@ body {
     left: 0;
     opacity: .5;
     background-image: url("../images/white.jpg");
-    background-color: ;
+    background-color: white;
     background-repeat: no-repeat;
     background-size: cover;
     transition-property: background-image;
@@ -196,7 +196,4 @@ iframe {
 
 #vid-btn {
     display: block;
-}
-.diagonal-gradient {
-    background: linear-gradient(to bottom right, blue, pink);
 }
