@@ -44,7 +44,8 @@ The 3 main issues our site addressed are:
 - Frameworks
   - Bootstrap
   - JQuery
+  - anime.js(new technology)
 - Other functionality (not previously discussed in class)
   - Creating a modal
   - Embedding a video
-  - anime.js
+ 
