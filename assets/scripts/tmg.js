@@ -11,13 +11,9 @@ anime({
     duration: "2000"
 })
 
-//TMDb Get Movie Now API config
-var searchNowURL = "https://api.themoviedb.org/3/movie/now_playing"
-var movieURL = "https://api.themoviedb.org/3/movie/"
-var apiKeyTMDb = "e48a4ae3c093a2322becafcc6dc5c8a0";
-
 //TMDb API config
 var searchURL = "https://api.themoviedb.org/3/search/movie"
+var searchNowURL = "https://api.themoviedb.org/3/movie/now_playing"
 var movieURL = "https://api.themoviedb.org/3/movie/"
 var apiKeyTMDb = "e48a4ae3c093a2322becafcc6dc5c8a0";
 
@@ -35,53 +31,8 @@ var movieRatings = [];
 var videoSrc = "";
 
 //execute search when search button is clicked (functions defined below)
-$("#zipButton").on("click", function(){
-    var zip = $("#zipcode").val().trim();
+$("#zip-button").on("click", nowPlaying);
 
-    console.log('This is our zipcode: ' + zip);
-
-    nowPlaying();
-});
-
-//search for movies now playing
-function nowPlaying() {
-    //clear current results
-    $("#summary-section").empty();
-    $("#result-count").empty();
-    $("#review-section").empty();
-    //remove background image
-    $(".background").css("background-image", "url('./assets/images/white.jpg')");
-    //reset video source
-    videoSrc = "";
-    //configure search URL
-    // var searchTerm = $("#movie-now-playing").val().trim().replace(/ /g, "+");
-    // var region = "ISO3166-2:US"
-    // region = region.replace("^[A-Z]{2}$");
-
-    // "&region=" + region
-    var queryNowURL = searchNowURL + "?api_key=" + apiKeyTMDb + "&include_adult=false";
-
-    //generate API call and retrieve movies playing now list
-    $.ajax({
-        url: queryNowURL,
-        method: "GET"
-    }).then(function (response) {
-
-        console.log(response);
-        // numOfResults = response.total_results;
-        // movieList = response.results;
-
-        // //display number of results
-        // var resultCount = $("#result-count");
-        // var countLabel = $("<span>").addClass("count-label").html("Results: ");
-        // resultCount.html(numOfResults);
-        // resultCount.prepend(countLabel);
-
-        //render list of movies now playing
-        renderMovieList();
-    });
-}
-//************************-->
 //execute search when search button is clicked (functions defined below)
 $("#title-search-btn").on("click", searchTitle);
 
@@ -90,7 +41,7 @@ $(document).on("click", ".movie-row", function () {
     //if clicked row already selected then unselect
     if ($(this).hasClass("selected")) {
         //reset css for all rows
-        $(".movie-row").css("opacity", "1");
+        $(".movie-row").css("opacity", "1"); 
         $(this).css("border-color", "#ddd");
 
         //animiate movie detail exit
@@ -182,6 +133,33 @@ function searchTitle() {
         resultCount.prepend(countLabel);
 
         //render list of movies
+        renderMovieList();
+    });
+}
+
+//search for movies now playing
+function nowPlaying() {
+    //clear current results
+    $("#summary-section").empty();
+    $("#result-count").empty();
+    $("#review-section").empty();
+    //remove background image
+    $(".background").css("background-image", "url('./assets/images/white.jpg')");
+    //reset video source
+    videoSrc = "";
+    //configure search URL
+    var queryURL = searchNowURL + "?api_key=" + apiKeyTMDb + "&include_adult=false";
+
+    //generate API call and retrieve movies playing now list
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+
+        console.log(response);
+        movieList = response.results;
+
+        //render list of movies now playing
         renderMovieList();
     });
 }
