@@ -3,18 +3,18 @@ anime({
     targets: ".jumbotron",
     translateY: ["-250px", "0px"],
     duration: "2000"
-})
+});
 //animate search bars
 anime({
     targets: ".search-inputs",
     translateX: ["-500px", "0px"],
     duration: "2000"
-})
+});
 
 //TMDb API config
-var searchURL = "https://api.themoviedb.org/3/search/movie"
-var searchNowURL = "https://api.themoviedb.org/3/movie/now_playing"
-var movieURL = "https://api.themoviedb.org/3/movie/"
+var searchURL = "https://api.themoviedb.org/3/search/movie";
+var searchNowURL = "https://api.themoviedb.org/3/movie/now_playing";
+var movieURL = "https://api.themoviedb.org/3/movie/";
 var apiKeyTMDb = "e48a4ae3c093a2322becafcc6dc5c8a0";
 
 //OMDB API config
@@ -82,7 +82,7 @@ $(document).on("click", ".movie-row", function () {
         getDetails($(this).attr("data-movie-id"));
     }
 
-})
+});
 
 //display video when any movie details are clicked
 $(document).on("click", "#vid-btn", function () {
@@ -125,13 +125,11 @@ function searchTitle() {
     }).then(function (response) {
         numOfResults = response.total_results;
         movieList = response.results;
-
         //display number of results
         var resultCount = $("#result-count");
         var countLabel = $("<span>").addClass("count-label").html("Results: ");
         resultCount.html(numOfResults);
         resultCount.prepend(countLabel);
-
         //render list of movies
         renderMovieList();
     });
@@ -150,15 +148,20 @@ function nowPlaying() {
     //reset video source
     videoSrc = "";
     //configure search URL
-    var queryURL = searchNowURL + "?api_key=" + apiKeyTMDb + "&include_adult=false";
+    var queryURL = searchNowURL + "?api_key=" + apiKeyTMDb + "&include_adult=false&region=us";
 
     //generate API call and retrieve movies playing now list
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
+        numOfResults = response.total_results;
         movieList = response.results;
-
+        //display number of results
+        var resultCount = $("#result-count");
+        var countLabel = $("<span>").addClass("count-label").html("Results: ");
+        resultCount.html(numOfResults);
+        resultCount.prepend(countLabel);
         //render list of movies now playing
         renderMovieList();
     });
@@ -286,7 +289,6 @@ function addDetailContent(div) {
 
     //if video available display play button
     if (videoSrc) {
-        console.log(videoSrc);
         div.append(vidBtn);
     }
     //displaly tagline and summary
