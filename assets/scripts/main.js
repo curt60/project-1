@@ -13,6 +13,7 @@ anime({
 
 //TMDb API config
 var searchURL = "https://api.themoviedb.org/3/search/movie"
+var searchNowURL = "https://api.themoviedb.org/3/movie/now_playing"
 var movieURL = "https://api.themoviedb.org/3/movie/"
 var apiKeyTMDb = "e48a4ae3c093a2322becafcc6dc5c8a0";
 
@@ -21,11 +22,16 @@ var ratingURL = "https://www.omdbapi.com/?i=";
 var apiKeyOMDB = "7a2bf295";
 
 //define global variables
+var searchNowMovie;
+
 var numOfResults = 0;
 var movieList = [];
 var movieDetails = {};
 var movieRatings = [];
 var videoSrc = "";
+
+//execute search when search button is clicked (functions defined below)
+$("#now-playing-btn").on("click", nowPlaying);
 
 //execute search when search button is clicked (functions defined below)
 $("#title-search-btn").on("click", searchTitle);
@@ -35,13 +41,13 @@ $(document).on("click", ".movie-row", function () {
     //if clicked row already selected then unselect
     if ($(this).hasClass("selected")) {
         //reset css for all rows
-        $(".movie-row").css("opacity", "1");
+        $(".movie-row").css("opacity", "1"); 
         $(this).css("border-color", "#ddd");
 
         //animiate movie detail exit
         anime({
             targets: "#review-section",
-            //translateX: ["0px", "200px"],
+            translateX: ["0px", "200px"],
             opacity: 0,
             duration: 500,
             easing: "linear",
@@ -127,6 +133,33 @@ function searchTitle() {
         resultCount.prepend(countLabel);
 
         //render list of movies
+        renderMovieList();
+    });
+}
+
+//search for movies now playing
+function nowPlaying() {
+    //clear search input field
+    $("#title-input").val("");
+    //clear current results
+    $("#summary-section").empty();
+    $("#result-count").empty();
+    $("#review-section").empty();
+    //remove background image
+    $(".background").css("background-image", "url('./assets/images/white.jpg')");
+    //reset video source
+    videoSrc = "";
+    //configure search URL
+    var queryURL = searchNowURL + "?api_key=" + apiKeyTMDb + "&include_adult=false";
+
+    //generate API call and retrieve movies playing now list
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        movieList = response.results;
+
+        //render list of movies now playing
         renderMovieList();
     });
 }

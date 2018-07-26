@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    
+
 
     <div class="background"></div>
     <div class="container p-3">
@@ -31,11 +31,12 @@
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Movie Title" id="title-input">
                     <div class="input-group-append">
-                        <button class="btn btn-secondary" type="submit" id="title-search-btn">Search</button>
+                        <button class="btn btn-secondary" type="submit" id="title-search-btn">Search Title</button>
+                        <button class="btn btn-secondary ml-3" type="submit" id="now-playing-btn">Now Playing</button>
                     </div>
                 </div>
+                <div class="col-md-4 text-center" id="result-count"></div>
             </div>
-            <div class="col-md-4 text-center" id="result-count"></div>
         </div>
         <div class="output">
             <div id="summary-section"></div>
@@ -43,7 +44,7 @@
                 <div id="review-section"></div>
             </div>
         </div>
-    </div>  
+    </div>
     <div class="vid-modal">
         <iframe id="video" width="640" height="360" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
@@ -52,7 +53,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="./assets/scripts/anime.min.js"></script>
     <script src="./assets/scripts/main.js"></script>
-
 </body>
 
 </html>
