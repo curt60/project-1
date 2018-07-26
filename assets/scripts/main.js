@@ -148,7 +148,7 @@ function nowPlaying() {
     //reset video source
     videoSrc = "";
     //configure search URL
-    var queryURL = searchNowURL + "?api_key=" + apiKeyTMDb + "&include_adult=false";
+    var queryURL = searchNowURL + "?api_key=" + apiKeyTMDb + "&include_adult=false&region=us";
 
     //generate API call and retrieve movies playing now list
     $.ajax({
